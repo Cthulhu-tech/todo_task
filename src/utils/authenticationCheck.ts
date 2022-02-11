@@ -1,10 +1,10 @@
-import { IncomingMessage, ServerResponse } from "http";
+import { IncomingMessage } from "http";
 import { AuthType } from "../interface/authType";
 const jwt = require('jsonwebtoken');
 const fileSystem = require('fs');
 const path = require('path');
 
-const AuthhentificationCheck = (request:IncomingMessage, response:ServerResponse) => {
+const AuthhentificationCheck = (request:IncomingMessage) => {
   try
   {
       const authorization = request.headers.cookie?.split('=')[1];
@@ -13,18 +13,19 @@ const AuthhentificationCheck = (request:IncomingMessage, response:ServerResponse
 
           const verifyInformation  = jwt.verify(authorization, "secret");
 
-          fileCheck(verifyInformation, authorization);
+          return fileCheck(verifyInformation, authorization);
     
       }else{
 
-        console.log('auth need')
-
+        return [401, "need authorization"];
       }
 
   }
   catch
   {
       
+    return [500, "server error"];
+
   }
 }
 
@@ -39,11 +40,11 @@ const fileCheck = (verifyInformation:any, authorization:string) => {
 
     if(verifyInformation.iat < currentTime && verifyInformation.exp > currentTime && data.jwt === authorization){
 
-      console.log('norm')
+      return [200, verifyInformation.username]; // OK
 
     }else{
 
-      console.log('hyita')
+      return [410, "not found"]; // NOT FOUND!
 
     }
   }

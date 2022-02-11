@@ -3,3 +3,10 @@ export type AuthType =  {
   password: string;
   jwt?: string;
 }
+
+export type Todo = {
+  todo: {
+    data: number, 
+    text: string
+   }[];
+}

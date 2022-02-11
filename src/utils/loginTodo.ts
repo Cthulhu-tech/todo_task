@@ -1,5 +1,6 @@
 import { IncomingMessage, ServerResponse } from "http";
 import { AuthType } from "../interface/authType";
+import { ResponseLogic } from "./response";
 const { parse } = require("querystring");
 const jwt = require('jsonwebtoken');
 const fileSystem = require('fs');
@@ -15,25 +16,32 @@ const Login = (request:IncomingMessage, response:ServerResponse) => {
     DATA_REGIST += data.toString(); 
 
   }).on("error", (err) => {
-
-    response.writeHead(500, {'Content-Type': 'text/json'});
-    response.end(`{Error: ${err.message}}`);
+    
+    ResponseLogic(response, 500 , ["login : false", `${err.message}`])
 
   }).on("end", async () => {
 
     const params:AuthType = await parse(DATA_REGIST);
-    const pathFile:string = path.join(__dirname, '../file/', `${params.username}`);
+
+    if(params.password && !!/^[a-zA-Z0-9]+$/.exec(params.username)){
+
+      const pathFile:string = path.join(__dirname, '../file/', `${params.username}`);
     
-    if(fileSystem.existsSync(`${pathFile}/${params.username}.json`)){
-
-
-      readFile(pathFile, params, response);
-
+      if(fileSystem.existsSync(`${pathFile}/${params.username}.json`)){
+  
+  
+        readFile(pathFile, params, response);
+  
+  
+      }else{
+  
+        ResponseLogic(response, 410 , ["login : false", 'you folder not found'])
+  
+      }
 
     }else{
 
-      response.writeHead(403, {'Content-Type': 'text/json'});
-      response.end("{login : false, message: 'you folder not found'}");
+      ResponseLogic(response, 410 , ["login : false", 'need login and password'])
 
     }
 
@@ -62,15 +70,13 @@ const readFile = async(pathFile: string, params: AuthType, response:ServerRespon
 
     }else{
 
-      response.writeHead(403, {'Content-Type': 'text/json'});
-      response.end("{login : false, message: 'login or password not valid'}");
+      ResponseLogic(response, 401 , ["login : false", 'login or password not valid'])
 
     }
 
   }catch{
 
-    response.writeHead(500 , {'Content-Type': 'text/json'});
-    response.end("{login : false, message: 'you file not found'}");
+    ResponseLogic(response, 500 , ["login : false", 'you file not found'])
 
   }
 }
@@ -81,7 +87,7 @@ const generateAccessToken = (params: AuthType) => {
     username: params.username
   }
 
-  return jwt.sign(payload, "secret" ,{expiresIn: "24h"})
+  return jwt.sign(payload, "secret", {expiresIn: "24h"})
 
 }
 
