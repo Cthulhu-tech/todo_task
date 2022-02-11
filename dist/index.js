@@ -6,6 +6,7 @@ const Unknown = require("./src/utils/unknown");
 const Login = require("./src/utils/loginTodo");
 const Save = require("./src/utils/saveTodo");
 const Load = require("./src/utils/loadTodo");
+const fileSystem = require('fs');
 const http = require('http');
 const port = 3300;
 http.createServer((request, response) => {
@@ -41,7 +42,9 @@ const POST = (request, response) => {
     }
 };
 const GET = (request, response) => {
-    (0, response_1.ResponseLogic)(response, 404, ['url: false', `unknown - page: ${request.url}`]);
+    response.writeHead(200, { 'Content-Type': 'text/html', });
+    response.write(`<p>${request.url}</p>`);
+    response.end();
 };
 const DEFAULT = (response) => {
     (0, response_1.ResponseLogic)(response, 501, ['method: false', "Not Implemented"]);
