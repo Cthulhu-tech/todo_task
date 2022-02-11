@@ -29,10 +29,10 @@ const Regist = (request:IncomingMessage, response:ServerResponse) => {
       const pathFile:string = path.join(__dirname, '../file/', `${params.username}`);
     
       if(!fileSystem.existsSync(pathFile)){
-  
-        createFolderAndFiles(pathFile, params)
-  
-        ResponseLogic(response, 201, ['registration: true', "registration complete"]);
+        console.log('1')
+        await createFolderAndFiles(pathFile, params)
+        console.log('2')
+        await ResponseLogic(response, 201, ['registration: true', "registration complete"]);
   
       }else{
   
@@ -52,8 +52,8 @@ const Regist = (request:IncomingMessage, response:ServerResponse) => {
 
 const createFolderAndFiles = async (pathFile:string, params:AuthType) => {
 
-  fileSystem.mkdirSync(pathFile);
   const hash = await bcrypt.hash(params.password, 10);
+
   fileSystem.appendFileSync(`${pathFile}/${params.username}.json`, JSON.stringify({username: params.username , password: hash}));
   fileSystem.appendFileSync(`${pathFile}/${params.username}Data.json`, '');
 
