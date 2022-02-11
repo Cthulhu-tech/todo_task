@@ -15,7 +15,7 @@ http.createServer((request, response) => {
             POST(request, response);
             break;
         case 'GET':
-            POST(request, response); // изменен для хостинга
+            GET(request, response);
             break;
         default:
             DEFAULT(response);
