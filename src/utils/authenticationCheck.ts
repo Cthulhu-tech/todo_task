@@ -47,6 +47,8 @@ const fileCheck = (verifyInformation:any, authorization:string) => {
       return [410, "not found"]; // NOT FOUND!
 
     }
+  }else{
+    return [410, "not found"];
   }
 }
 

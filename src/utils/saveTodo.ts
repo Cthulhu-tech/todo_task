@@ -1,4 +1,4 @@
-const AuthhentificationCheck = require(__dirname + "/authenticationCheck.ts");
+const AuthhentificationCheck = require(__dirname + "/authenticationCheck");
 import { IncomingMessage, ServerResponse } from "http";
 import { Todo } from "../interface/authType";
 import { ResponseLogic } from "./response";

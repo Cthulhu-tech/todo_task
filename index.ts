@@ -1,11 +1,10 @@
 import { IncomingMessage, ServerResponse } from "http";
 import { ResponseLogic } from "./src/utils/response";
-
-const Regist = require("./utils/registTodo");
-const Unknown = require("./utils/unknown");
-const Login = require("./utils/loginTodo");
-const Save = require("./utils/saveTodo");
-const Load = require("./utils/loadTodo");
+const Regist = require("./src/utils/registTodo");
+const Unknown = require("./src/utils/unknown");
+const Login = require("./src/utils/loginTodo");
+const Save = require("./src/utils/saveTodo");
+const Load = require("./src/utils/loadTodo");
 const http = require('http');
 const port = 3300;
 
