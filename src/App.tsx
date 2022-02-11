@@ -1,7 +1,7 @@
 
 
 function App() {
-  return <>work!</>
+  return <>work !</>
 }
 
 export default App;
