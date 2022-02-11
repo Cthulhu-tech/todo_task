@@ -6,7 +6,7 @@ const Login = require("./utils/loginTodo");
 const Save = require("./utils/saveTodo");
 const Load = require("./utils/loadTodo");
 const http = require('http');
-const port = 3000
+const port = 3300;
 
 http.createServer((request:IncomingMessage, response:ServerResponse) => {
   switch(request.method) {
