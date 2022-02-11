@@ -43,8 +43,7 @@ const POST = (request, response) => {
 };
 const GET = (request, response) => {
     response.writeHead(200, { 'Content-Type': 'text/html', });
-    response.write(`<p>${request.url}</p>`);
-    response.end();
+    response.end("<p>HELLO!</p>");
 };
 const DEFAULT = (response) => {
     (0, response_1.ResponseLogic)(response, 501, ['method: false', "Not Implemented"]);
