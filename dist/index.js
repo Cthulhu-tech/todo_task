@@ -41,9 +41,12 @@ const POST = (request, response) => {
             break;
     }
 };
-const GET = (request, response) => {
-    response.writeHead(200, { 'Content-Type': 'text/html', });
-    response.end("<p>HELLO!</p>");
+const GET = async (request, response) => {
+    fileSystem.readFile('./index.html', 'utf-8', (err, data) => {
+        response.writeHead(200, { 'Content-Type': 'text/html' });
+        response.write(data);
+        response.end();
+    });
 };
 const DEFAULT = (response) => {
     (0, response_1.ResponseLogic)(response, 501, ['method: false', "Not Implemented"]);

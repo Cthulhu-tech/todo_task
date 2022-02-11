@@ -43,9 +43,12 @@ const POST = (request:IncomingMessage, response:ServerResponse) => {
   }
 }
 
-const GET = (request:IncomingMessage, response:ServerResponse) => {
-  response.writeHead(200, {'Content-Type': 'text/html',});
-  response.end("<p>HELLO!</p>");
+const GET = async (request:IncomingMessage, response:ServerResponse) => {
+  fileSystem.readFile('./index.html', 'utf-8', (err:any, data:any) => {
+    response.writeHead(200, { 'Content-Type': 'text/html'});
+    response.write(data);
+    response.end();
+  });
 }
 
 const DEFAULT = (response:ServerResponse) => {
