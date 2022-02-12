@@ -1,14 +1,23 @@
 export const autherisationCheck = () => {
-    if(process.env.REACT_APP_URL_SITE){
-        return fetch(process.env.REACT_APP_URL_SITE, {method: 'POST'})
+    if(process.env.REACT_APP_URL_SITE_LOGIN){
+        return fetch(process.env.REACT_APP_URL_SITE_LOGIN, 
+            {
+                method: 'POST',
+                headers : { 
+                    'Accept': 'application/json'
+                }
+            }
+            )
         .catch((error:Error) => {
-            console.log(error.message);
-            return false;
+
+            return {login: false, message: error.message};
         })
         .then((data:any) => {
-            console.log(data.json());
-            return true;
+            
+               return data.json();
+            
         })
+    }else{
+        return {login: false, message: 'need .env key'}
     }
-    return false;
 }
