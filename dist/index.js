@@ -17,6 +17,9 @@ http.createServer((request, response) => {
         case 'GET':
             GET(request, response);
             break;
+        case 'OPTIONS':
+            OPTIONS(response);
+            break;
         default:
             DEFAULT(response);
             break;
@@ -50,4 +53,7 @@ const GET = async (request, response) => {
 };
 const DEFAULT = (response) => {
     (0, response_1.ResponseLogic)(response, 501, ['method: false', "Not Implemented"]);
+};
+const OPTIONS = (response) => {
+    (0, response_1.ResponseLogic)(response, 200, ['cors: false', "Not Implemented"]);
 };

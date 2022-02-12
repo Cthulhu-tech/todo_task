@@ -17,6 +17,9 @@ http.createServer((request:IncomingMessage, response:ServerResponse) => {
     case 'GET':
         GET(request, response);
       break;
+    case 'OPTIONS':
+        OPTIONS(response);
+      break;
     default:
         DEFAULT(response);
       break;
@@ -55,4 +58,8 @@ const DEFAULT = (response:ServerResponse) => {
 
   ResponseLogic(response, 501, ['method: false', "Not Implemented"]);
 
+}
+
+const OPTIONS = (response:ServerResponse) => {
+  ResponseLogic(response, 200, ['cors: false', "Not Implemented"]);
 }

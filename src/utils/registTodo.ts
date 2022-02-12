@@ -17,21 +17,29 @@ const Regist = (request:IncomingMessage, response:ServerResponse) => {
 
   }).on("error", (err) => {
 
-    response.writeHead(500, {'Content-Type': 'text/json'});
-    response.end(`{registration : true, message: ${err.message}}`);
+    response.writeHead(500, {
+      'Content-Type': 'text/json ; application/json',
+      "Access-Control-Allow-Methods": "DELETE, POST, GET, OPTIONS",
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Headers": "Content-Type, Authorization, X-Requested-With",
+      "Access-Control-Allow-Credentials": "true",
+    });
+    response.end(`{registration : false, message: ${err.message}}`);
 
   }).on("end", async () => {
 
-    const params:AuthType = await parse(DATA_REGIST);
+    const params:AuthType = await JSON.parse(DATA_REGIST);
 
-    if(!!/^[a-zA-Z0-9]+$/.exec(params.username) && params.password){
+    console.log(params)
+
+    if(!!/^[a-zA-Z0-9]+$/.exec(params.username) && params.password.trim().length >= 1){
 
       const pathFile:string = path.join(__dirname, '../file/', `${params.username}`);
     
       if(!fileSystem.existsSync(pathFile)){
-        console.log('1')
+
         await createFolderAndFiles(pathFile, params)
-        console.log('2')
+
         await ResponseLogic(response, 201, ['registration: true', "registration complete"]);
   
       }else{

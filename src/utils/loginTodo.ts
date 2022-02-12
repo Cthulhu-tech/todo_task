@@ -62,7 +62,11 @@ const readFile = async(pathFile: string, params: AuthType, response:ServerRespon
       fileSystem.writeFileSync(`${pathFile}/${params.username}.json`, JSON.stringify({username: data.username , password: data.password , jwt: token}));
       
       response.writeHead(200, {
-        'Content-Type': 'application/json',
+        'Content-Type': 'text/json ; application/json',
+        "Access-Control-Allow-Methods": "DELETE, POST, GET, OPTIONS",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Headers": "Content-Type, Authorization, X-Requested-With",
+        "Access-Control-Allow-Credentials": "true",
         'Set-Cookie': `jwt=${token}; httponly;`
       });
 
