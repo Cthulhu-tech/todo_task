@@ -18,19 +18,18 @@ const Regist = (request:IncomingMessage, response:ServerResponse) => {
   }).on("error", (err) => {
 
     response.writeHead(500, {
-      'Content-Type': 'text/json ; application/json',
+      'Content-Type': 'text/json; application/json',
       "Access-Control-Allow-Methods": "DELETE, POST, GET, OPTIONS",
-      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Origin": "http://localhost:3000",
       "Access-Control-Allow-Headers": "Content-Type, Authorization, X-Requested-With",
       "Access-Control-Allow-Credentials": "true",
     });
-    response.end(`{registration : false, message: ${err.message}}`);
+    response.end(JSON.stringify(`{registration : false, message: ${err.message}}`));
 
   }).on("end", async () => {
 
     const params:AuthType = await JSON.parse(DATA_REGIST);
 
-    console.log(params)
 
     if(!!/^[a-zA-Z0-9]+$/.exec(params.username) && params.password.trim().length >= 1){
 
@@ -40,17 +39,17 @@ const Regist = (request:IncomingMessage, response:ServerResponse) => {
 
         await createFolderAndFiles(pathFile, params)
 
-        await ResponseLogic(response, 201, ['registration: true', "registration complete"]);
+        await ResponseLogic(response, 201, ["registration" , true , "registration complete"]);
   
       }else{
   
-        ResponseLogic(response, 208, ['registration: false', "registration error, this name use"]);
+        ResponseLogic(response, 208, ["registration" , true , "registration error, this name use"]);
   
       }
 
     }else{
 
-      ResponseLogic(response, 208, ['registration: false', "registration error, need password and login"]);
+      ResponseLogic(response, 208, ["registration" , true , "registration error, need password and login"]);
 
     }
 

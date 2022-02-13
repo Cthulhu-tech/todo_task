@@ -34,17 +34,18 @@ const fileCheck = (verifyInformation:any, authorization:string) => {
   const pathFile:string = path.join(__dirname, '../file/', `${verifyInformation.username}`);
 
   if(fileSystem.existsSync(`${pathFile}/${verifyInformation.username}.json`)){
+    
 
     const data:AuthType = JSON.parse(fileSystem.readFileSync(`${pathFile}/${verifyInformation.username}.json`, "utf8"));
     const currentTime = Math.round(Date.now() / 1000);
 
     if(verifyInformation.iat < currentTime && verifyInformation.exp > currentTime && data.jwt === authorization){
 
-      return [200, verifyInformation.username]; // OK
+      return [200, "verify!", verifyInformation.username]; // OK
 
     }else{
 
-      return [410, "not found"]; // NOT FOUND!
+      return [410, "bad token"]; // NOT FOUND!
 
     }
   }else{

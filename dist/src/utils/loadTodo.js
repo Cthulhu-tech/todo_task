@@ -8,35 +8,35 @@ const Load = async (request, response) => {
     const status = await AuthhentificationCheck(request, response);
     switch (status[0]) {
         case 200:
-            const pathFile = await path.join(__dirname, "/../file", status[1], `${status[1]}Data.json`);
+            const pathFile = await path.join(__dirname, "/../file", status[2], `${status[2]}Data.json`);
             if (fileSystem.existsSync(pathFile)) {
                 fileRead(response, status, pathFile);
             }
             else {
-                (0, response_1.ResponseLogic)(response, status[0], ["load : false", `${status[1]}`]);
+                (0, response_1.ResponseLogic)(response, status[0], ["load", false, `${status[1]}`]);
             }
             break;
         case 410:
-            (0, response_1.ResponseLogic)(response, status[0], ["load : false", `${status[1]}`]);
+            (0, response_1.ResponseLogic)(response, status[0], ["load", false, `${status[1]}`]);
             break;
         case 401:
-            (0, response_1.ResponseLogic)(response, status[0], ["load : false", `${status[1]}`]);
+            (0, response_1.ResponseLogic)(response, status[0], ["load", false, `${status[1]}`]);
             break;
         case 500:
-            (0, response_1.ResponseLogic)(response, status[0], ["load : false", `${status[1]}`]);
+            (0, response_1.ResponseLogic)(response, status[0], ["load", false, `${status[1]}`]);
             break;
         default:
-            (0, response_1.ResponseLogic)(response, 501, ['method: false', "I don't know what happened ;("]);
+            (0, response_1.ResponseLogic)(response, 501, ["method", false, "I don't know what happened ;("]);
             break;
     }
 };
 const fileRead = (response, status, pathFile) => {
     try {
         const fileContent = fileSystem.readFileSync(pathFile, "utf8");
-        (0, response_1.ResponseLogic)(response, status[0], ["load : true", `${fileContent}`]);
+        (0, response_1.ResponseLogic)(response, status[0], ["load", true, JSON.parse(fileContent)]);
     }
     catch {
-        (0, response_1.ResponseLogic)(response, 500, ["load : false", "error reading file, please try again later"]);
+        (0, response_1.ResponseLogic)(response, 500, ["load", false, "error reading file, please try again later"]);
     }
 };
 module.exports = Load;

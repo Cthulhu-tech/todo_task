@@ -6,7 +6,7 @@ export type AuthType =  {
 
 export type Todo = {
   todo: {
-    data: number, 
+    data: string, 
     text: string
    }[];
 }

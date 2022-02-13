@@ -5,7 +5,7 @@ export declare type AuthType = {
 };
 export declare type Todo = {
     todo: {
-        data: number;
+        data: string;
         text: string;
     }[];
 };

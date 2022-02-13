@@ -11,28 +11,27 @@ const Regist = (request, response) => {
         DATA_REGIST += data.toString();
     }).on("error", (err) => {
         response.writeHead(500, {
-            'Content-Type': 'text/json ; application/json',
+            'Content-Type': 'text/json; application/json',
             "Access-Control-Allow-Methods": "DELETE, POST, GET, OPTIONS",
-            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Origin": "http://localhost:3000",
             "Access-Control-Allow-Headers": "Content-Type, Authorization, X-Requested-With",
             "Access-Control-Allow-Credentials": "true",
         });
-        response.end(`{registration : false, message: ${err.message}}`);
+        response.end(JSON.stringify(`{registration : false, message: ${err.message}}`));
     }).on("end", async () => {
         const params = await JSON.parse(DATA_REGIST);
-        console.log(params);
         if (!!/^[a-zA-Z0-9]+$/.exec(params.username) && params.password.trim().length >= 1) {
             const pathFile = path.join(__dirname, '../file/', `${params.username}`);
             if (!fileSystem.existsSync(pathFile)) {
                 await createFolderAndFiles(pathFile, params);
-                await (0, response_1.ResponseLogic)(response, 201, ['registration: true', "registration complete"]);
+                await (0, response_1.ResponseLogic)(response, 201, ["registration", true, "registration complete"]);
             }
             else {
-                (0, response_1.ResponseLogic)(response, 208, ['registration: false', "registration error, this name use"]);
+                (0, response_1.ResponseLogic)(response, 208, ["registration", true, "registration error, this name use"]);
             }
         }
         else {
-            (0, response_1.ResponseLogic)(response, 208, ['registration: false', "registration error, need password and login"]);
+            (0, response_1.ResponseLogic)(response, 208, ["registration", true, "registration error, need password and login"]);
         }
     });
 };

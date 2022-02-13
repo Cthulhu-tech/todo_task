@@ -28,22 +28,22 @@ const Save = async (request:IncomingMessage, response:ServerResponse) => {
       break;
     case 410:
 
-      ResponseLogic(response , status[0], ["save : false" , `${status[1]}`]);
+      ResponseLogic(response , status[0], ["save" , false , `${status[1]}`]);
 
       break;
     case 401:
 
-      ResponseLogic(response , status[0], ["save : false" , `${status[1]}`]);
+      ResponseLogic(response , status[0], ["save" , false  , `${status[1]}`]);
 
       break;
     case 500:
     
-      ResponseLogic(response , status[0], ["save : false" , `${status[1]}`]);
+      ResponseLogic(response , status[0], ["save" , false , `${status[1]}`]);
 
       break;
     default:
 
-      ResponseLogic(response, 501, ['method: false', "I don't know what happened ;("]);
+      ResponseLogic(response, 501, ["method" , false , "I don't know what happened ;("]);
 
       break;
   }
@@ -54,7 +54,7 @@ const SaveResponse = (request:IncomingMessage, response:ServerResponse , status:
   
   if(pathFile === undefined){
 
-    ResponseLogic(response , status[0], ["save : false" , `${status[1]}`]);
+    ResponseLogic(response , status[0], ["save" , false , `${status[1]}`]);
 
   }else{
 
@@ -66,7 +66,7 @@ const SaveResponse = (request:IncomingMessage, response:ServerResponse , status:
   
     }).on("error", (err) => {
 
-      ResponseLogic(response , 500, ["save : false" , "todo not save ;("]);
+      ResponseLogic(response , 500, ["save" , false , "todo not save ;("]);
 
     }).on("end", async() => {
 
@@ -74,7 +74,7 @@ const SaveResponse = (request:IncomingMessage, response:ServerResponse , status:
 
       fileSystem.writeFileSync(pathFile, params);
       
-      ResponseLogic(response , status[0], ["save : true" , "todo save!"]);
+      ResponseLogic(response , status[0], ["save" , true , "todo save!"]);
 
     })
   }

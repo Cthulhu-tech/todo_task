@@ -1,3 +1,4 @@
+const AuthhentificationCheck = require(__dirname + "/src/utils/authenticationCheck");
 import { IncomingMessage, ServerResponse } from "http";
 import { ResponseLogic } from "./src/utils/response";
 const Regist = require("./src/utils/registTodo");
@@ -40,10 +41,18 @@ const POST = (request:IncomingMessage, response:ServerResponse) => {
     case '/login':
       Login(request, response);
       break;
+    case '/authchecked':
+      Checked(request, response);
+      break;
     default:
       Unknown(request, response);
       break;
   }
+}
+
+const Checked = async (request:IncomingMessage, response:ServerResponse) => {
+  const auth:[number, string] = await AuthhentificationCheck(request);
+  await ResponseLogic(response, auth[0], ["login" , auth[1] === 'verify!' ? true : false , auth[1]])
 }
 
 const GET = async (request:IncomingMessage, response:ServerResponse) => {
@@ -56,10 +65,10 @@ const GET = async (request:IncomingMessage, response:ServerResponse) => {
 
 const DEFAULT = (response:ServerResponse) => {
 
-  ResponseLogic(response, 501, ['method: false', "Not Implemented"]);
+  ResponseLogic(response, 501, ["method" , false , "Not Implemented"]);
 
 }
 
 const OPTIONS = (response:ServerResponse) => {
-  ResponseLogic(response, 200, ['cors: false', "Not Implemented"]);
+  ResponseLogic(response, 200, ["cors" , false , "Not Implemented"]);
 }
