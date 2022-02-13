@@ -19,7 +19,7 @@ export const RegistrationComponent = () => {
   useEffect(() => {
 
   },[info])
-  console.log(info)
+
   return    <FormStyle>
                 <MessageStyle>Registration</MessageStyle>
                 <InputStyle placeholder="Login" name="username" onChange={authInfoChange}/>

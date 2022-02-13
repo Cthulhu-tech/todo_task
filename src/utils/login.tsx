@@ -1,15 +1,16 @@
 import { FormCheck } from "../interface/interface";
 
-export const RegistrationUser = async(authInfo:FormCheck) => {
+export const LoginUser = async(authInfo:FormCheck) => {
 
-  if(process.env.REACT_APP_URL_SITE_REGISTRATION && !!/^[a-zA-Z0-9]+$/.exec(authInfo.username) && authInfo.password.trim().length >= 1){
-    const response:any = await fetch(process.env.REACT_APP_URL_SITE_REGISTRATION, 
+  if(process.env.REACT_APP_URL_SITE_LOGIN && !!/^[a-zA-Z0-9]+$/.exec(authInfo.username) && authInfo.password.trim().length >= 1){
+    console.log(authInfo)
+    const response:any = await fetch(process.env.REACT_APP_URL_SITE_LOGIN, 
           { 
               method: 'POST',
               credentials: 'include',
               headers: { 
                 'Content-Type': 'text/json',
-                'Accept': 'text/json'
+                'Accept': 'text/json',
               },
               body : JSON.stringify(authInfo)
           }
