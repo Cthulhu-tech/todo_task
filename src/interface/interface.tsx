@@ -13,14 +13,16 @@ export type FormCheck = {
 }
 
 export type Todo = {
-  message: {
-      data_start: number;
-      data_end?: number;
-      theme: string;
-      text: string;
-      location: string;
-      done: boolean;
-      type: number;
-  }[];
+  message: TodoMessage[];
   load: boolean;
+}
+
+export type TodoMessage = {
+  data_start: number;
+  data_end: number;
+  theme: string;
+  text: string;
+  location: string;
+  done: boolean;
+  type: number;
 }

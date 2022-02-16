@@ -24,7 +24,7 @@ export const RegistrationComponent = () => {
                 <MessageStyle>Registration</MessageStyle>
                 <InputStyle placeholder="Login" name="username" onChange={authInfoChange}/>
                 <InputStyle placeholder="Password" name="password" type="password" onChange={authInfoChange}/>
-                <Button onClick={registration}>GET REGISTRED</Button>
+                <Button onClick={registration} className="btn-auth">GET REGISTRED</Button>
                 <MessageStyle>{info.message}</MessageStyle>
             </FormStyle>
 }

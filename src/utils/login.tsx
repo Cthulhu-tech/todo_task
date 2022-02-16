@@ -26,8 +26,8 @@ export const LoginUser = async(authInfo:FormCheck) => {
 
     })
 
-    
-    return response
+
+    return response;
 
   }else{
 

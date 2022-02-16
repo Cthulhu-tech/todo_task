@@ -1,17 +1,37 @@
-import { useCallback, useEffect, useState } from "react"
-import { Todo } from "../../interface/interface";
+import { useCallback, useEffect, useMemo, useState } from "react"
+import { HomeTodoFilter } from "../../components/homeTodoFilter/homeTodoFilter";
+import { TodoContext } from "../../context/todoContext";
+import { Todo, TodoMessage } from "../../interface/interface";
 import { LoadContent } from "../../utils/loadContent";
-import { FilterButton, HomeFilterTodo, HomeStyle } from "./homeStyle"
+import { sortTodo } from "../../utils/sortTodo";
+import { HomeStyle } from "./homeStyle"
 
 export const HomeComponent = () => {
     
-    const [todo, setTodo] = useState<Todo>({"message":[{data_start: 0,theme: "",text: "",location: "",done: true, type: 0}],"load":true});
+    const [todo, setTodo] = useState<Todo>();
+    const [todoSort, setTodoSort] = useState<TodoMessage[][]>();
+
+    const ContentSortTodo = useMemo(() => (todo:Todo) => {
+
+        return sortTodo(todo);
+
+    }, [])
 
     const todoSetFetch = useCallback(async() => {
 
-        setTodo(await LoadContent());
+        if(!todo){
 
-    },[])
+            setTodo(await LoadContent());
+
+        }
+
+        if(todo){
+
+            await setTodoSort(await ContentSortTodo(todo));
+            
+        }
+
+    },[todo, ContentSortTodo])
 
     useEffect(() => {
 
@@ -19,25 +39,9 @@ export const HomeComponent = () => {
 
     },[todoSetFetch])
 
-    const TodoLoadToPage = () => {
-        return <div>{todo.message.map((value) => {
-            return <p>{value.text}{value.data_start}</p>
-        })}</div>
-    }
-
-    const HomeTodoFiltet = () => {
-
-        return  <HomeFilterTodo>
-                    <FilterButton>Поиск</FilterButton>
-                    <FilterButton>Тип</FilterButton>
-                    <FilterButton>Дата</FilterButton>
-                </HomeFilterTodo>
-
-    }
-
-
-    return  <HomeStyle>
-                <HomeTodoFiltet/>
-                <TodoLoadToPage/>
-            </HomeStyle>
+    return  <TodoContext.Provider value={todoSort ? todoSort : null}>
+                <HomeStyle>
+                    <HomeTodoFilter/>
+                </HomeStyle>
+            </TodoContext.Provider>
 }
