@@ -62,8 +62,7 @@ const createFolderAndFiles = async (pathFile:string, params:AuthType) => {
   const hash = await bcrypt.hash(params.password, 10);
   fileSystem.mkdirSync(pathFile, { recursive: true });
   fileSystem.appendFileSync(`${pathFile}/${params.username}.json`, JSON.stringify({username: params.username , password: hash}));
-  fileSystem.appendFileSync(`${pathFile}/${params.username}Data.json`, '');
-
+  fileSystem.appendFileSync(`${pathFile}/${params.username}Data.json`, '[]');
 }
 
 module.exports = Regist;

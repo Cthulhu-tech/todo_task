@@ -48,13 +48,15 @@ const Load = async(request:IncomingMessage, response:ServerResponse) => {
   
 }
 
-const fileRead = (response:ServerResponse , status:[number, string] , pathFile: string) => {
+const fileRead = (response:ServerResponse , status:[number, string] , pathFile: string[]) => {
 
   try
   {
+
     const fileContent = fileSystem.readFileSync(pathFile, "utf8");
 
     ResponseLogic(response , status[0], ["load" , true  , JSON.parse(fileContent)]);
+
   }
   catch
   {
