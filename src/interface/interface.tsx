@@ -18,11 +18,12 @@ export type Todo = {
 }
 
 export type TodoMessage = {
-  data_start: number;
-  data_end: number;
+  data_start: string;
+  data_end: string;
   theme: string;
   text: string;
   location: string;
   done: boolean;
   type: number;
+  id: number;
 }

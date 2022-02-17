@@ -4,7 +4,7 @@ import { FilterButton, FilterInput, FilterInputContainer, HomeArticle, HomeFilte
 
 export const HomeTodoFilter = () => {
 
-  const [filterState, setFilterState] = useState<number>();
+  const [filterState, setFilterState] = useState<number>(2);
 
   useEffect(() => {
 
