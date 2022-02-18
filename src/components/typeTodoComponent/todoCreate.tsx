@@ -1,16 +1,18 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { TodoContext } from "../../context/todoContext";
 import { TodoMessage } from "../../interface/interface"
-import { ButtonSave, Checkbox, DataView, Input, InputContainer, InputTheme, InputUniversal, Textarea, TextareaContainer, TodoGridComponentAll } from "./typeTodoStyle";
+import { ButtonDelete, ButtonSave, Checkbox, DataView, Input, InputContainer, InputTheme, InputUniversal, Textarea, TextareaContainer, TodoGridComponentAll } from "./typeTodoStyle";
 
-export const CreateTodoResetData = (props:{todo: TodoMessage}) => {
+export const CreateTodoResetData = (props:{todo: TodoMessage, type: number}) => {
 
-  const {todo} = props;
+  const {todo, type} = props;
   const [text, setText] = useState<string>(todo.text);
   const [dataEnd, setDataEnd] = useState(todo.data_end);
   const [dataStart, setDataStart] = useState(todo.data_start);
   const [location, setLocation] = useState(todo.location);
   const [theme, setTheme] = useState(todo.theme);
   const [done, setDone] = useState(todo.done);
+  const [deleteTodo, setDelete] = useState(false);
 
   const SetText = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
 
@@ -54,16 +56,33 @@ export const CreateTodoResetData = (props:{todo: TodoMessage}) => {
 
   }
 
+  const todoContext = useContext(TodoContext);
+
+  const DeleteTodo = () => {
+
+    if(todoContext?.todoSort) {
+      todoContext?.todoSort[type].forEach((sortedTodo, i:number) =>{
+
+        if(sortedTodo.id === todo.id && todoContext?.todoSort && todoContext?.setTodoSort){
+
+          todoContext?.todoSort[type].splice(i,1)
+          todoContext?.setTodoSort([...todoContext.todoSort])
+
+        }
+      })
+    }
+  }
+
   useEffect(() => {
-   
-  },[text, dataStart, dataEnd, todo, location])
+
+  },[text, dataStart, dataEnd, todo, location, todoContext?.todoSort])
 
   return  <TodoGridComponentAll key={todo.id}>
             <DataView>
               <InputContainer>
                 <InputUniversal placeholder="Местоположение" onChange={LocationSet} type="text" value={location}/>
                 <Input onChange={DataStartSet} type="date" value={dataStart}/>
-                <Input onChange={DataEndSet} type="date" value={dataEnd}/>
+                {type !== 0 && <Input onChange={DataEndSet} type="date" value={dataEnd}/>}
               </InputContainer>
               <TextareaContainer>
                 <InputTheme placeholder="Тема" onChange={ThemeSet} type="text" value={theme}/>
@@ -72,6 +91,12 @@ export const CreateTodoResetData = (props:{todo: TodoMessage}) => {
               <InputContainer>
                 <p>{todo.done ? "Завершено" : "Ожидает"}</p>
                 <Checkbox type="checkbox" onChange={SetCheckbox} checked={done}/>
+                <ButtonSave>Сохранить</ButtonSave>
+                {
+                !deleteTodo ? 
+                <ButtonDelete onClick={() => setDelete(true)}>Удалить</ButtonDelete> 
+                : <ButtonDelete onClick={DeleteTodo} >Уверены?</ButtonDelete>
+                }
               </InputContainer>
             </DataView>
           </TodoGridComponentAll>

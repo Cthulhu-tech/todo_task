@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { HomeTodoFilter } from "../../components/homeTodoFilter/homeTodoFilter";
 import { TodoContext } from "../../context/todoContext";
 import { Todo, TodoMessage } from "../../interface/interface";
@@ -10,8 +10,9 @@ export const HomeComponent = () => {
     
     const [todo, setTodo] = useState<Todo>();
     const [todoSort, setTodoSort] = useState<TodoMessage[][]>();
-
-    const ContentSortTodo = useMemo(() => (todo:Todo) => {
+    const [submitting, setSubmitting] = useState(true)
+    
+    const ContentSortTodo = useCallback((todo:Todo) => {
 
         return sortTodo(todo);
 
@@ -35,11 +36,15 @@ export const HomeComponent = () => {
 
     useEffect(() => {
 
-        todoSetFetch();
+        if(submitting){
 
-    },[todoSetFetch])
+            todoSetFetch().then(() => setSubmitting(false));
 
-    return  <TodoContext.Provider value={todoSort ? todoSort : null}>
+        }
+
+    },[submitting, todoSetFetch, todoSort, todo])
+
+    return  <TodoContext.Provider value={{todoSort, setTodoSort}}>
                 <HomeStyle>
                     <HomeTodoFilter/>
                 </HomeStyle>

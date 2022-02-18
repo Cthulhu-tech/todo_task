@@ -152,3 +152,14 @@ color: rgb(75,170,169);
 background-color: #f5f5f5;
 border: 1px solid #e1e8ed;
 `
+export const ButtonDelete = styled.button
+`
+color: red;
+margin: 5px;
+outline: none;
+cursor: pointer;
+padding: 5px 10px;
+border-radius: 8px;
+background-color: #f5f5f5;
+border: 1px solid #e1e8ed;
+`

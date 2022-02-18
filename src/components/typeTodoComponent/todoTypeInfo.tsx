@@ -1,17 +1,23 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { TodoContext } from "../../context/todoContext";
+import { TodoMessage } from "../../interface/interface";
 import { CreateTodoResetData } from "./todoCreate";
 import { TodoGridComponent } from "./typeTodoStyle";
 
 
-export const TodoTypeInfo = (type:number) => {
+export const TodoTypeInfo = (props:{type:number}) => {
 
-  const todoSort = useContext(TodoContext);
+  const {type} = props;
+  
+  const todoContext = useContext(TodoContext);
 
+  useEffect(() => {
 
-  if(todoSort)
-    return  <TodoGridComponent>{todoSort[type].map((todo) => {
-        return <CreateTodoResetData todo={todo} key={todo.id}/>;
+  },[todoContext])
+
+  if(todoContext?.todoSort)
+    return  <TodoGridComponent>{todoContext.todoSort[type].map((todo:TodoMessage) => {
+        return <CreateTodoResetData {...{todo, type}} key={todo.id}/>;
     })}</TodoGridComponent>
 
   return <p>Todo list is empty</p>
