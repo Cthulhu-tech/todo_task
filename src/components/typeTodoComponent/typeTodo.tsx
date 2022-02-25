@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { TodoAdd } from "./todoAdd";
 import { TodoTypeInfo } from "./todoTypeInfo";
 import { TypeTodoButton, TypeTodoContainer, TypeTodoDiv } from "./typeTodoStyle";
 
@@ -6,22 +7,20 @@ export const TypeTodo = () => {
 
   const [todoType, setTodoType] = useState(1);
 
-
   return  <TypeTodoDiv>
             <TypeTodoContainer>
               <TypeTodoButton onClick={() => setTodoType(1)}>
-                <p className={todoType === 1 ? 'activeTodoButton' : ''}>Задачи на день</p>
+                <p className={todoType === 1 ? 'activeTodoButton' : ''}>Встреча</p>
               </TypeTodoButton>
               <TypeTodoButton onClick={() => setTodoType(2)}>
-                <p className={todoType === 2 ? 'activeTodoButton' : ''}>Промежуточные</p>
+                <p className={todoType === 2 ? 'activeTodoButton' : ''}>Дело</p>
               </TypeTodoButton>
               <TypeTodoButton onClick={() => setTodoType(3)}>
-                <p className={todoType === 3 ? 'activeTodoButton' : ''}>Повторяющиеся</p>
+                <p className={todoType === 3 ? 'activeTodoButton' : ''}>Памятка</p>
               </TypeTodoButton>
             </TypeTodoContainer>
-
-            {todoType === 1 && <TodoTypeInfo type={0}/>}
-            {todoType === 2 && <TodoTypeInfo type={1}/>}
-            {todoType === 3 && <TodoTypeInfo type={2}/>}
+            
+            <TodoAdd type={todoType - 1}/>
+            <TodoTypeInfo type={todoType - 1}/>
           </TypeTodoDiv>
 }

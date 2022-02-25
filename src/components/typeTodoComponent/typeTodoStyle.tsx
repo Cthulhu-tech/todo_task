@@ -45,27 +45,36 @@ box-shadow: 0px 5px 5px -5px rgb(34 60 80 / 60%);
 `
 export const DataView = styled.div
 `
+margin: 5px;
 display: flex;
-margin: 0 auto;
-width: clamp(150px,90%,800px);
+width: calc(100% - 40px);
 justify-content: space-between;
+@media screen and (max-width: 756px){
+  align-items: center;
+  flex-direction: column;
+}
 `
 export const Textarea = styled.textarea
 `
-width: 100%;
+margin: 5px;
 resize: none;
 outline: none;
 padding: 10px;
 text-align: start;
 border-radius: 12px;
+width: calc(100% - 20px);
 border: 1px solid #e1e8ed;
 `
 export const InputContainer = styled.div
 `
+margin: 5px;
 display: flex;
 align-items: center;
 flex-direction: column;
 justify-content: space-evenly;
+>input{
+  margin: 5px;
+}
 `
 export const Input = styled.input
 `
@@ -135,7 +144,7 @@ border: 1px solid #e1e8ed;
 `
 export const InputTheme = styled.input
 `
-margin: 10px;
+margin: 5px;
 border: none;
 outline: none;
 text-align: center;
@@ -160,6 +169,28 @@ outline: none;
 cursor: pointer;
 padding: 5px 10px;
 border-radius: 8px;
+background-color: #f5f5f5;
+border: 1px solid #e1e8ed;
+`
+
+export const TodoAddFile = styled.div
+`
+padding: 10px;
+margin: 20px auto;
+border-radius: 8px;
+background-color: white;
+width: calc(100% - 50px);
+border: ${(props:{border: number})=> props.border}px solid #e1e8ed;
+`
+
+export const TodoAddFileButton = styled.button
+`
+margin: 5px;
+outline: none;
+cursor: pointer;
+padding: 5px 10px;
+border-radius: 8px;
+color: rgb(75,170,169);
 background-color: #f5f5f5;
 border: 1px solid #e1e8ed;
 `

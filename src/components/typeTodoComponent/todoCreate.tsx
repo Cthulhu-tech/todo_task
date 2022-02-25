@@ -3,9 +3,9 @@ import { TodoContext } from "../../context/todoContext";
 import { TodoMessage } from "../../interface/interface"
 import { ButtonDelete, ButtonSave, Checkbox, DataView, Input, InputContainer, InputTheme, InputUniversal, Textarea, TextareaContainer, TodoGridComponentAll } from "./typeTodoStyle";
 
-export const CreateTodoResetData = (props:{todo: TodoMessage, type: number}) => {
+export const CreateTodoResetData = (props:{todo: TodoMessage, type: number, add?: boolean}) => {
 
-  const {todo, type} = props;
+  const {todo, type, add} = props;
   const [text, setText] = useState<string>(todo.text);
   const [dataEnd, setDataEnd] = useState(todo.data_end);
   const [dataStart, setDataStart] = useState(todo.data_start);
@@ -71,6 +71,69 @@ export const CreateTodoResetData = (props:{todo: TodoMessage, type: number}) => 
         }
       })
     }
+
+  }
+
+  const AddSave = () => {
+    
+    if(todoContext?.todoSort && todo.id !== -100) {
+      todoContext?.todoSort[type].forEach((sortedTodo, i:number) =>{
+
+          if(sortedTodo.id === todo.id && todoContext?.todoSort && todoContext?.setTodoSort){
+                      
+            todoContext.todoSort[type][i] = {
+              data_start: dataStart,
+              data_end: dataEnd,
+              theme: theme,
+              text: text,
+              location: location,
+              done: done,
+              type: type,
+              id: todo?.id,
+            }
+
+            return todoContext?.setTodoSort([...todoContext.todoSort])
+  
+          }
+
+      })
+
+    }else{
+
+      if(todoContext?.todoSort){
+
+        let max:number = -100;
+
+        for(let i = 0; i < todoContext.todoSort[type].length; i++){
+
+          if(todoContext.todoSort[type][i].id > max){
+
+            max = todoContext.todoSort[type][i].id
+
+          }
+        }
+
+        const data = {
+          data_start: todo?.data_start,
+          data_end: todo?.data_end,
+          theme: todo?.theme,
+          text: todo?.text,
+          location: todo?.location,
+          done: todo?.done,
+          type: todo?.type,
+          id: max + 1,
+        }
+
+        todoContext.todoSort[type].push(data)
+
+        console.log(max)
+
+        return todoContext?.setTodoSort([...todoContext.todoSort])
+
+      }
+
+    }
+
   }
 
   useEffect(() => {
@@ -80,9 +143,9 @@ export const CreateTodoResetData = (props:{todo: TodoMessage, type: number}) => 
   return  <TodoGridComponentAll key={todo.id}>
             <DataView>
               <InputContainer>
-                <InputUniversal placeholder="Местоположение" onChange={LocationSet} type="text" value={location}/>
-                <Input onChange={DataStartSet} type="date" value={dataStart}/>
-                {type !== 0 && <Input onChange={DataEndSet} type="date" value={dataEnd}/>}
+                {type === 0 && <InputUniversal placeholder="Местоположение" onChange={LocationSet} type="text" value={location}/>}
+                {type !== 2 && <Input onChange={DataStartSet} type="date" value={dataStart}/>}
+                {type !== 2 && <Input onChange={DataEndSet} type="date" value={dataEnd}/>}
               </InputContainer>
               <TextareaContainer>
                 <InputTheme placeholder="Тема" onChange={ThemeSet} type="text" value={theme}/>
@@ -91,11 +154,11 @@ export const CreateTodoResetData = (props:{todo: TodoMessage, type: number}) => 
               <InputContainer>
                 <p>{todo.done ? "Завершено" : "Ожидает"}</p>
                 <Checkbox type="checkbox" onChange={SetCheckbox} checked={done}/>
-                <ButtonSave>Сохранить</ButtonSave>
+                <ButtonSave onClick={() => AddSave()}>Сохранить</ButtonSave>
                 {
-                !deleteTodo ? 
+                !deleteTodo && add === undefined ? 
                 <ButtonDelete onClick={() => setDelete(true)}>Удалить</ButtonDelete> 
-                : <ButtonDelete onClick={DeleteTodo} >Уверены?</ButtonDelete>
+                : add === undefined && <ButtonDelete onClick={DeleteTodo} >Уверены?</ButtonDelete>
                 }
               </InputContainer>
             </DataView>

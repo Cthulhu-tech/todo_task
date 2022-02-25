@@ -6,9 +6,9 @@ import { TodoGridComponent } from "./typeTodoStyle";
 
 
 export const TodoTypeInfo = (props:{type:number}) => {
-
-  const {type} = props;
   
+  const {type} = props;
+
   const todoContext = useContext(TodoContext);
 
   useEffect(() => {
