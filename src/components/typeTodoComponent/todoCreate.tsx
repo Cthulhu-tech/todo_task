@@ -158,8 +158,8 @@ export const CreateTodoResetData = (props:{todo: TodoMessage, type: number, add?
                 {
                 !deleteTodo && add === undefined ? 
                 <ButtonDelete onClick={() => setDelete(true)}>Удалить</ButtonDelete> 
-                : add === undefined && <ButtonDelete onClick={DeleteTodo} >Уверены?</ButtonDelete>
-                } 
+                : add === undefined && <ButtonDelete onClick={DeleteTodo} >Уверены ?</ButtonDelete>
+                }
               </InputContainer>
             </DataView>
           </TodoGridComponentAll>
