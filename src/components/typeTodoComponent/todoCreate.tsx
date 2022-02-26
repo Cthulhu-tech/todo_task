@@ -58,7 +58,7 @@ export const CreateTodoResetData = (props:{todo: TodoMessage, type: number, add?
 
   const todoContext = useContext(TodoContext);
 
-  const DeleteTodo = () => {
+  const DeleteTodoMethod = () => {
 
     if(todoContext?.todoSort) {
       todoContext?.todoSort[type].forEach((sortedTodo, i:number) =>{
@@ -158,7 +158,7 @@ export const CreateTodoResetData = (props:{todo: TodoMessage, type: number, add?
                 {
                 !deleteTodo && add === undefined ? 
                 <ButtonDelete onClick={() => setDelete(true)}>Удалить</ButtonDelete> 
-                : add === undefined && <ButtonDelete onClick={DeleteTodo} >Уверены ?</ButtonDelete>
+                : add === undefined && <ButtonDelete onClick={DeleteTodoMethod} >Уверены?</ButtonDelete>
                 }
               </InputContainer>
             </DataView>
